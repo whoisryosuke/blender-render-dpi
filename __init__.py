@@ -45,21 +45,21 @@ class GI_SceneProperties(PropertyGroup):
     width: FloatProperty(
         name = "Width (in)",
         description = "Width in inches",
-        default = 1.0,
+        default = 8.5,
         min = 0.01,
         max = 1000.0
         )
     height: FloatProperty(
         name = "Height (in)",
         description = "Height in inches",
-        default = 1.0,
+        default = 11.0,
         min = 0.01,
         max = 1000.0
         )
     dpi: IntProperty(
         name = "DPI",
         description = "Height in inches",
-        default = 72,
+        default = 300,
         min = 1,
         max = 1000
         )
