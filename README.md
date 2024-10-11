@@ -1,8 +1,8 @@
-![Plugin panel in Blender](./docs/plugin-panel-highlighted.png)
+![Plugin panel in Blender](./docs/plugin-panel.png)
 
 # Render DPI addon for Blender
 
-This addon helps you convert physical dimensions (using inches and DPI) to pixel sizing.
+This addon helps you convert physical dimensions (using inches and DPI) to pixel sizing and can save your file in the correct DPI.
 
 Perfect if you do print work and need to export images at high resolutions, and don't feel like doing DPI math to convert your design's physical dimensions to pixels.
 
