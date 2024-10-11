@@ -58,7 +58,7 @@ class GI_SceneProperties(PropertyGroup):
         )
     dpi: IntProperty(
         name = "DPI",
-        description = "Height in inches",
+        description = "DPI (dots per inch) or resolution of image",
         default = 300,
         min = 1,
         max = 1000
