@@ -10,7 +10,7 @@ Perfect if you do print work and need to export images at high resolutions, and 
 
 ## ⬇️ Installation
 
-1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.1/render_dpi-0.0.1.zip) from the releases page
+1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.2/render_dpi-0.0.2.zip) from the releases page
 1. Open Blender
 1. Go to Edit > Preferences and go to the Addons tab on left.
 1. Click install button.
@@ -23,16 +23,35 @@ Perfect if you do print work and need to export images at high resolutions, and 
 1. Find the plugin under "DPI Settings" in the Format panel (usually first one).
 1. Enter your image width and height in inches.
 1. Set the DPI.
-1. Press **"Sync Size with Pixels"** button.
+1. Press **"Sync Size with Pixels"** button. You should see the "Resolution X and Y" change pixel size.
 
-You should see the "Resolution X and Y" change pixel size.
+> ⚠️ Remember, your image won't save with the proper DPI if you render and use `Image > Save Image`. Blender by default saves in 72dpi. If you need to **save with proper DPI, turn on "auto save"** (see below).
+
+## Saving with DPI
+
+If you want to save your images with proper DPI, make sure the **"Auto Save"** checkbox is on.
+
+Every time you render this will save images in the same folder as your Blender file in a folder called `/renders`. For example, if your Blender file is `E:/3D/project-name/the-project.blend` then the images will be in `E:/3D/project-name/renders`.
+
+The file will be saved as the **same file type/extension as your Blender scene** (see: Output panel > File Format dropdown).
+
+The images are named using the following naming convention:
+
+```
+[BLENDER_FILENAME][WIDTH][HEIGHT][DPI][DATETIME].[FILE_EXTENSION]
+```
+
+> If you're animating something, this will save twice (once in the animation folder, and once in the renders folder). The plugin have special conditions for animations, so it'll just save any render. I'd recommend turning turning auto save off if unless you need the DPI changes.
 
 ## Development
 
-1. Clone the repo: `git clone`
-1. Install in Blender
-1. Open the plugin code inside your Blender plugin folder
+1. Install the plugin using the release ZIP.
+1. Go to the plugin folder.
+1. Delete the contents.
+1. Clone the repo and copy the contents inside this folder
 1. Edit, Save, Repeat.
+
+> We have to install from the release ZIP because Blender won't recognize the `.wheels` files and install them if we install from a folder. This was the only workaround I've found.
 
 ## Publish
 
