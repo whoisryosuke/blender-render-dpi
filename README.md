@@ -6,8 +6,6 @@ This addon helps you convert physical dimensions (using inches and DPI) to pixel
 
 Perfect if you do print work and need to export images at high resolutions, and don't feel like doing DPI math to convert your design's physical dimensions to pixels.
 
-> ⚠️ Note that **your image in Blender will still save as 72dpi unless you use the "auto save" feature.** You'll need to use a tool like Photoshop to convert it to 300dpi (using Image > Image Size). But using this addon - your image won't lose any quality since you'll have all the pixel density you need for the resolution change.
-
 ## ⬇️ Installation
 
 1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.2/render_dpi-0.0.2.zip) from the releases page
@@ -25,9 +23,11 @@ Perfect if you do print work and need to export images at high resolutions, and 
 1. Set the DPI.
 1. Press **"Sync Size with Pixels"** button. You should see the "Resolution X and Y" change pixel size.
 
-> ⚠️ Remember, your image won't save with the proper DPI if you render and use `Image > Save Image`. Blender by default saves in 72dpi. If you need to **save with proper DPI, turn on "auto save"** (see below).
+> ⚠️ Note that **your image in Blender will still save as 72dpi unless you use the "auto save" feature.** You'll need to use a tool like Photoshop to convert it to 300dpi (using Image > Image Size). But using this addon - your image won't lose any quality since you'll have all the pixel density you need for the resolution change.
 
 ## Saving with DPI
+
+Your image won't save with the proper DPI if you render and use `Image > Save Image`. Blender by default saves in 72dpi.
 
 If you want to save your images with proper DPI, make sure the **"Auto Save"** checkbox is on.
 
