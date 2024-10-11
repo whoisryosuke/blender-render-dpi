@@ -65,15 +65,8 @@ class GI_SceneProperties(PropertyGroup):
         )
 
 # UI Panel
-class GI_DPIPanel(bpy.types.Panel):
-    """Creates a Panel in the render output window"""
-    bl_label = "DPI Panel"
-    bl_idname = "SCENE_PT_layout"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
-    bl_context = "output"
-    
-    def draw(self, context):
+def draw_func(self, context):
+        # self.bl_label = "My Override"
         layout = self.layout
 
         scene = context.scene
@@ -82,6 +75,7 @@ class GI_DPIPanel(bpy.types.Panel):
         layout.label(text="DPI Settings")
         row = layout.row()
         row.prop(dpi_props, "width")
+        row = layout.row()
         row.prop(dpi_props, "height")
         row = layout.row()
         row.prop(dpi_props, "dpi")
@@ -115,7 +109,7 @@ class DPI_SETTINGS_sync_size(bpy.types.Operator):
 # Load/unload addon into Blender
 classes = (
     GI_SceneProperties,
-    GI_DPIPanel,
+    # GI_DPIPanel,
     DPI_SETTINGS_sync_size,
 )
 
@@ -125,11 +119,13 @@ def register():
         register_class(cls)
 
     bpy.types.Scene.dpi_props = PointerProperty(type=GI_SceneProperties)
+    bpy.types.RENDER_PT_format.append(draw_func)
 
 def unregister():
     from bpy.utils import unregister_class
     for cls in reversed(classes):
         unregister_class(cls)
+    bpy.types.RENDER_PT_format.remove(draw_func)
 
 
 if __name__ == "__main__":
