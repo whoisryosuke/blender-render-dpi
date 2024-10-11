@@ -2,6 +2,12 @@
 
 # Render DPI addon for Blender
 
+This addon helps you convert physical dimensions (using inches and DPI) to pixel sizing.
+
+Perfect if you do print work and need to export images at high resolutions, and don't feel like doing DPI math to convert your design's physical dimensions to pixels.
+
+> ⚠️ Note that **your image in Blender will still save as 72dpi.** You'll need to use a tool like Photoshop to convert it to 300dpi (using Image > Image Size). But using this addon - your image won't lose any quality since you'll have all the pixel density you need for the resolution change.
+
 ## ⬇️ Installation
 
 1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.1/blender-render-dpi-v0.0.1.zip) from the releases page
@@ -10,6 +16,16 @@
 1. Click install button.
 1. Select the zip you downloaded.
 1. You can confirm it's installed by searching for **"Render DPI"** and seeing if it's checked off
+
+# How to use
+
+1. Open the Output tab (the print looking icon) in the Properties window.
+1. Find the plugin under "DPI Settings" in the Format panel (usually first one).
+1. Enter your image width and height in inches.
+1. Set the DPI.
+1. Press **"Sync Size with Pixels"** button.
+
+You should see the "Resolution X and Y" change pixel size.
 
 ## Development
 
