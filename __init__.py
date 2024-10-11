@@ -27,12 +27,12 @@ from bpy.types import (
 # ------------------------------------------------------------------------
 
 # 1 inch = 2.54 cm
-def convert_inch_to_cm(inches):
-    return round(inches * 2.54, 1)
+def convert_inch_to_cm(inches: float) -> float:
+    return inches * 2.54
 
 # DPI calculation is cm = widthPixels * (2.54 / dpi)
 # But this requires knowing size in pixels, so we solve for left side in this function
-def convert_dpi_to_px(centimeters, dpi):
+def convert_dpi_to_px(centimeters: float, dpi: int) -> float:
     return centimeters / (2.54 / dpi)
 
 # ------------------------------------------------------------------------
@@ -43,14 +43,14 @@ def convert_dpi_to_px(centimeters, dpi):
 # UI properties
 class GI_SceneProperties(PropertyGroup):
     width: FloatProperty(
-        name = "Width",
+        name = "Width (in)",
         description = "Width in inches",
         default = 1.0,
         min = 0.01,
         max = 1000.0
         )
     height: FloatProperty(
-        name = "Height",
+        name = "Height (in)",
         description = "Height in inches",
         default = 1.0,
         min = 0.01,
@@ -67,7 +67,7 @@ class GI_SceneProperties(PropertyGroup):
 # UI Panel
 class GI_DPIPanel(bpy.types.Panel):
     """Creates a Panel in the render output window"""
-    bl_category = "DPI Panel"
+    bl_label = "DPI Panel"
     bl_idname = "SCENE_PT_layout"
     bl_space_type = 'PROPERTIES'
     bl_region_type = 'WINDOW'
@@ -104,18 +104,19 @@ class DPI_SETTINGS_sync_size(bpy.types.Operator):
         height_cm = convert_inch_to_cm(dpi_props.height)
 
         # Get DPI value for each side
-        width_px = convert_dpi_to_px(width_cm)
-        height_px = convert_dpi_to_px(height_cm)
+        dpi = dpi_props.dpi
+        width_px = convert_dpi_to_px(width_cm, dpi)
+        height_px = convert_dpi_to_px(height_cm, dpi)
 
-
-        bpy.context.scene.render.resolution_x = width_px;
-        bpy.context.scene.render.resolution_y = height_px;
+        bpy.context.scene.render.resolution_x = round(width_px);
+        bpy.context.scene.render.resolution_y = round(height_px);
         return {"FINISHED"}
 
 # Load/unload addon into Blender
 classes = (
     GI_SceneProperties,
     GI_DPIPanel,
+    DPI_SETTINGS_sync_size,
 )
 
 def register():
