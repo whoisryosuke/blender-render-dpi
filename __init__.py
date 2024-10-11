@@ -1,8 +1,8 @@
 bl_info = {
     "name": "Render DPI",
-    "description": "Helps you convert inches and DPI dimensions to Blender's pixel size. This doesn't change image metadata (yet).",
+    "description": "Helps you convert inches and DPI dimensions to Blender's pixel size.",
     "author": "whoisryosuke",
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "blender": (2, 80, 0), # not sure if this is right
     "location": "Properties > Output",
     "warning": "", # used for warning icon and text in addons panel
@@ -12,6 +12,7 @@ bl_info = {
 }
 
 
+from PIL import Image
 import bpy
 import os
 from datetime import datetime
@@ -70,7 +71,7 @@ class GI_SceneProperties(PropertyGroup):
         )
     should_auto_save: BoolProperty(
         name = "Auto Save",
-        description = "Auto saves image with correct dimensions and DPI. Saves in Blender file's folder.",
+        description = "Auto saves image after every render with correct dimensions and DPI.",
         default = False,
         )
 
@@ -142,7 +143,7 @@ def auto_save_render(scene):
     date_time = now.strftime("%m-%d-%Y-%H-%M-%S")
 
     # We also append the file info for quick ref
-    image_size_info = width + "in-" + height + "in-" + dpi
+    image_size_info = str(round(width)) + "x" + str(round(height)) + "in-" + str(dpi) + "dpi"
 
     # Merge them all together
     image_name = image_base_name + "_" + image_size_info + "_" + date_time + "." + extension
@@ -154,14 +155,20 @@ def auto_save_render(scene):
 
     # Save image
     image = bpy.data.images['Render Result']
-    image.save_render(image_final_path, scene=None)
+    try:
+        image.save_render(image_final_path, scene=None)
+    except:
+        print("Couldn't save")
+
+    # Resave image as proper DPI
+    with Image.open(image_final_path) as img:
+        img.save(image_final_path, dpi=(dpi,dpi))
 
 
 
 # Load/unload addon into Blender
 classes = (
     GI_SceneProperties,
-    # GI_DPIPanel,
     DPI_SETTINGS_sync_size,
 )
 
