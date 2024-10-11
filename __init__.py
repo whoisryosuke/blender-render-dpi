@@ -73,14 +73,11 @@ def draw_func(self, context):
         dpi_props = scene.dpi_props
 
         layout.label(text="DPI Settings")
-        row = layout.row()
+        row = layout.column()
         row.prop(dpi_props, "width")
-        row = layout.row()
         row.prop(dpi_props, "height")
-        row = layout.row()
         row.prop(dpi_props, "dpi")
 
-        row = layout.row()
         row.operator("dpi_settings.sync_size")
 
 class DPI_SETTINGS_sync_size(bpy.types.Operator):
