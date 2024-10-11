@@ -1,3 +1,5 @@
+![Plugin panel in Blender](./docs/plugin-panel-highlighted.png)
+
 # Render DPI addon for Blender
 
 ## ⬇️ Installation
