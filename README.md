@@ -10,7 +10,7 @@ Perfect if you do print work and need to export images at high resolutions, and 
 
 ## ⬇️ Installation
 
-1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.1/blender-render-dpi-v0.0.1.zip) from the releases page
+1. [Download the plugin zip](https://github.com/whoisryosuke/blender-render-dpi/releases/download/v0.0.1/render_dpi-0.0.1.zip) from the releases page
 1. Open Blender
 1. Go to Edit > Preferences and go to the Addons tab on left.
 1. Click install button.
@@ -33,6 +33,13 @@ You should see the "Resolution X and Y" change pixel size.
 1. Install in Blender
 1. Open the plugin code inside your Blender plugin folder
 1. Edit, Save, Repeat.
+
+## Publish
+
+1. Bump version in `__init__.py`
+1. Bump version in `blender_manifest.toml`
+1. `blender --command extension build --output-dir dist`
+1. Upload the new `.zip` file generated inside `/dist` folder to Blender addon marketplace and [GitHub Releases page](https://github.com/whoisryosuke/blender-render-dpi/releases/new).
 
 ## Acknowledgements
 
