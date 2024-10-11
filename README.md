@@ -19,7 +19,7 @@ Perfect if you do print work and need to export images at high resolutions, and 
 
 # How to use
 
-1. Open the Output tab (the print looking icon) in the Properties window.
+1. Open the Output tab (the printer looking icon) in the Properties window.
 1. Find the plugin under "DPI Settings" in the Format panel (usually first one).
 1. Enter your image width and height in inches.
 1. Set the DPI.
