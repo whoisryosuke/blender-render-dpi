@@ -178,11 +178,13 @@ def convert_on_unit_set(self,val):
     scene = bpy.context.scene
     dpi_props = scene.dpi_props
 
+    old_unit = dpi_props.old_unit
+    new_unit = dpi_props.unit
+
 
     if dpi_props.convert_unit:
 
-        old_unit = dpi_props.old_unit
-        new_unit = dpi_props.unit
+
 
         if not dpi_props.old_unit == dpi_props.unit:
             width = dpi_props.width
@@ -190,7 +192,8 @@ def convert_on_unit_set(self,val):
             print("Convert",old_unit,"to",new_unit)             
             dpi_props.width = convert_unit(old_unit,new_unit,width)
             dpi_props.height = convert_unit(old_unit,new_unit,height)
-            dpi_props.old_unit = new_unit
+
+    dpi_props.old_unit = new_unit        
    
     pass
 
