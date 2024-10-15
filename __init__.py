@@ -12,14 +12,6 @@ bl_info = {
 }
 
 
-# ------------------------------------------------------------------------
-#    ADDED by Julius Hilker
-#    - Presets
-#    - Bleed Margin
-#    - Select Unit
-# ------------------------------------------------------------------------
-
-
 from PIL import Image
 import bpy
 import os
@@ -30,6 +22,7 @@ from bpy.props import (IntProperty,
                        EnumProperty,
                        PointerProperty,
                        BoolProperty,
+                       StringProperty
                        )
 from bpy.types import (
                        PropertyGroup,
@@ -92,20 +85,39 @@ def dpi_preset_folder_setup():
             dpi_preset_create_default_presets(dpi_preset_directory)
     
 
+def convert_unit(old_unit,new_unit,value):
+
+
+    if old_unit=="mm":
+        value = convert_mm_to_cm(value)
+    
+    if old_unit=="m":
+        value = convert_m_to_cm(value)
+
+    if old_unit=="inch":
+        value = convert_inch_to_cm(value)
+    
+    if new_unit=="mm":
+        value = value * 10
+    
+    if new_unit=="m":
+        value = value / 100
+    
+    if new_unit=="inch":
+        value = value / 2.54
+    
+
+    return value
 
 
 def convert_inch_to_cm(value: float) -> float:
     return value * 2.54
 
-    pass
-
 def convert_mm_to_cm(value: float) -> float:
-    return value * 0.1
-    pass
+    return value / 10
 
 def convert_m_to_cm(value: float) -> float:
-    return value * 0.1
-    pass
+    return value * 100
 
 def calculate_dimensions(width: float,height: float):
     
@@ -161,6 +173,27 @@ def convert_dpi_to_px(centimeters: float, dpi: int) -> float:
 #    Scene Properties
 # ------------------------------------------------------------------------
 
+def convert_on_unit_set(self,val):
+
+    scene = bpy.context.scene
+    dpi_props = scene.dpi_props
+
+
+    if dpi_props.convert_unit:
+
+        old_unit = dpi_props.old_unit
+        new_unit = dpi_props.unit
+
+        if not dpi_props.old_unit == dpi_props.unit:
+            width = dpi_props.width
+            height = dpi_props.height   
+            print("Convert",old_unit,"to",new_unit)             
+            dpi_props.width = convert_unit(old_unit,new_unit,width)
+            dpi_props.height = convert_unit(old_unit,new_unit,height)
+            dpi_props.old_unit = new_unit
+   
+    pass
+
 
 def set_bleed(self, val):
     scene = bpy.context.scene
@@ -185,8 +218,18 @@ class GI_SceneProperties(PropertyGroup):
         ("cm","Centimeter",""),
         ("m","Meter",""),
         ("inch","Inch",""),
-        ]
+        ],
+        update = convert_on_unit_set
     )
+    old_unit: StringProperty(
+        name = "Old unit",
+        default="mm"
+        )
+    convert_unit: BoolProperty(
+        name = "Convert",
+        description = "Convert unit on change",
+        default = True
+        )
 
     width: FloatProperty(
         name = "Width",
@@ -329,24 +372,79 @@ class DpiSettingsPanel(bpy.types.Panel):
             
             
             row = layout.row()
-            #row.prop(unit, "system")
-            #row.prop(unit, "length_unit", text="Unit")
-            row.prop(dpi_props, "unit")
-            row = layout.row(align=False)
 
-            row2 = layout.column()
-            x = row2.row(align=True)
-            x.prop(dpi_props, "width")
-            x2 = x.row(align=True)
-            x2.alignment = "RIGHT"
-            x2.label(text=dpi_props.unit)
+            col = row.column()
+            col.prop(dpi_props, "unit")     
+            
+            col = row.column()
+            col.alignment = "RIGHT"
+            col.prop(dpi_props, "convert_unit")
+
+            row = layout.row()
+
+            # simple label
+        
+
+            # start with a splitted row - we dont want to split the whole layout if something
+            # needs to be added after these elements
+            row = row.row(align=True)
+            
+            split = row.row(align=True)
+
+            # put 2 columns inside the split
+            colA = split.column(align=True)
+            colB = split.column(align=True) 
+            
+            rowA = colA.row(align=True)
+            rowB = rowA.column(align=True)
+            rowC = rowA.column(align=True)
+
+            rowC.alignment="LEFT"
+
+            # fill first column with props
+            rowB.prop(dpi_props, "width")
+            rowC.label(text=dpi_props.unit)
+
+            rowA = colA.row(align=True)
+            rowB = rowA.column(align=True)
+            rowC = rowA.column(align=True)
+
+            rowC.alignment="LEFT"
+
+            # fill first column with props
+            rowB.prop(dpi_props, "height")
+            rowC.label(text=dpi_props.unit)
+
+
+            
+        
+
+            # put a row into second column
+            row = colB.row(align=True)
+            # adjust the row's Y scale
+            row.scale_y = 2
+            row.operator(DpiSettingSwitchDimensions.bl_idname, text="",icon='UV_SYNC_SELECT')
+
+
+
+            # #row.prop(unit, "system")
+            # #row.prop(unit, "length_unit", text="Unit")
+            # 
+            # row = layout.row(align=False)
+
+            # row2 = layout.column()
+            # x = row2.row(align=True)
+            # x.prop(dpi_props, "width")
+            # x2 = x.row(align=True)
+            # x2.alignment = "RIGHT"
+            # x2.label(text=dpi_props.unit)
             
 
-            x = row2.row(align=True)
-            x.prop(dpi_props, "height")
-            x2 = x.row(align=True)
-            x2.alignment = "RIGHT"
-            x2.label(text=dpi_props.unit)
+            # x = row2.row(align=True)
+            # x.prop(dpi_props, "height")
+            # x2 = x.row(align=True)
+            # x2.alignment = "RIGHT"
+            # x2.label(text=dpi_props.unit)
 
 
             
@@ -384,7 +482,7 @@ class DpiSettingsBleedPanel(bpy.types.Panel):
             scene = context.scene
             dpi_props = scene.dpi_props
 
-            row = layout.row()
+            row = layout.row(align=True) 
 
             if not dpi_props.use_bleed:
                 layout.enabled = False
