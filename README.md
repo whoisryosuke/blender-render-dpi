@@ -10,6 +10,8 @@ Added:
 
 
 Original Readme:
+
+
 ![Plugin panel in Blender](./docs/plugin-panel.png)
 
 # Render DPI addon for Blender
