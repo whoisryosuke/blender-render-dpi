@@ -1,6 +1,6 @@
 Based on this Extension: https://github.com/whoisryosuke/blender-render-dpi
 
-Some Features added, some stuff rearanged... messy code!
+Some Features added, some stuff rearranged... messy code!
 
 Added:
 - Bleed Margin
