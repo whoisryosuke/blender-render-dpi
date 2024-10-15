@@ -8,6 +8,8 @@ Added:
 - Presets
 - Switch Height / Width
 
+
+Original Readme:
 ![Plugin panel in Blender](./docs/plugin-panel.png)
 
 # Render DPI addon for Blender
