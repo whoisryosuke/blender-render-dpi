@@ -199,15 +199,10 @@ def convert_on_unit_set(self,val):
 
 
 def set_bleed(self, val):
-    scene = bpy.context.scene
-    dpi_props = scene.dpi_props
-    print("Set BLEEE")
+    dpi_props = bpy.context.scene.dpi_props
+    dpi_props.bleed_top = dpi_props.bleed_left = dpi_props.bleed_bottom = dpi_props.bleed_right = dpi_props.bleed_even
 
-    if val:
-        dpi_props.bleed_top = dpi_props.bleed_even
-        dpi_props.bleed_left = dpi_props.bleed_even
-        dpi_props.bleed_bottom = dpi_props.bleed_even
-        dpi_props.bleed_right = dpi_props.bleed_even
+
 
 
 # UI properties
@@ -224,6 +219,7 @@ class GI_SceneProperties(PropertyGroup):
         ],
         update = convert_on_unit_set
     )
+    
     old_unit: StringProperty(
         name = "Old unit",
         default="mm"
@@ -268,7 +264,8 @@ class GI_SceneProperties(PropertyGroup):
         name = "Even Bleed",
         description = "Add bleeding to all sides (In selected unit)",
         default = 3,
-        min = 0
+        min = 0,
+        update = set_bleed
         )
     bleed_top: FloatProperty(
         name = "Top",
