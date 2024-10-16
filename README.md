@@ -1,3 +1,17 @@
+Based on this Extension: https://github.com/whoisryosuke/blender-render-dpi
+
+Some Features added, some stuff rearranged... messy code!
+
+Added:
+- Bleed Margin
+- Units (Including Unit conversion): m, mm, cm, inch
+- Presets
+- Switch Height / Width
+
+
+Original Readme:
+
+
 ![Plugin panel in Blender](./docs/plugin-panel.png)
 
 # Render DPI addon for Blender
